@@ -6,5 +6,7 @@
             "email": "baldino.bab@gmail.com"
         }
     ],
-    "require": {}
+    "require": {
+        "namnv609/php-rest-countries": "^1.0"
+    }
 }
