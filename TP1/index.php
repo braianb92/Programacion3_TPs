@@ -7,7 +7,13 @@ El paquete de países que vimos en clase es namnv609/php-rest-countries.
 
 Se puede utilizar cualquier paquete si se respeta la consigna. -->
 <?php
+use NNV\RestCountries;
+
+echo "compiles!";
 
 
+$restCountries = new RestCountries;
+
+echo json_decode($restCountries->all());
 
 ?>
