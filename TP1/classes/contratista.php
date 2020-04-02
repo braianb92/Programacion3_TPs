@@ -1,11 +1,11 @@
 <?php
-require_once './classes/persona.php';
+require_once './classes/base_persona.php';
 require_once './interfaces/IComportamiento.php';
 
 use NNV\RestCountries;
 
 $restCountries = new RestCountries;
-
+$restCountries->All();
 class Contratista extends Persona implements IComportamiento{
 
     public $paisDestino;

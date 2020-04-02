@@ -1,6 +1,6 @@
 <?php
 
-require_once './classes/persona.php';
+require_once './classes/base_persona.php';
 require_once './interfaces/IComportamiento.php';
 class Empleador extends Persona implements IComportamiento{
 
