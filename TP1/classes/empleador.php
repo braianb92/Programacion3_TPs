@@ -1,21 +1,25 @@
 <?php
 
-use IComportamiento;
-require_once 'persona.php';
-require_once './../interfaces/IComportamiento.php';
-
+require_once './classes/persona.php';
+require_once './interfaces/IComportamiento.php';
 class Empleador extends Persona implements IComportamiento{
 
-    public $contratistaAcargo;
+    public $contratistasAcargo;
 
-    public function __construct($nombre,$apellido,$edad,$paisResidencia,$contratistaAcargo){
-        $this->contratistaAcargo = $contratistaAcargo;
+    public function __construct($nombre,$apellido,$edad,$paisResidencia){
         parent::__construct($nombre,$apellido,$edad,$paisResidencia);
     }
  
+    public function agregarContratista($contratista){
+        array_push($this->contratistasAcargo,$contratista);
+    }
+    
     public function presentarse(){
         parent::datosPersonales();
-        echo "Contratista/s a cargo: $this->contratistaAcargo";
+        echo "Contratistas: <br>";
+        foreach($array as $value){
+            echo $value."<br>";
+        }
     }
 
 }
