@@ -1,5 +1,5 @@
 <?php
 
 interface IComportamiento{
-    function presentarse();
+    public function presentarse();
 }

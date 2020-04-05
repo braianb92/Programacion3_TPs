@@ -7,7 +7,11 @@ El paquete de países que vimos en clase es namnv609/php-rest-countries.
 
 Se puede utilizar cualquier paquete si se respeta la consigna. -->
 <?php
+require __DIR__ . '/vendor/autoload.php';
+require_once './classes/empleador.php';
+require_once './classes/contratista.php';
 
+#Funcion que habilita el debugger (ejemplo para postman con metodo GET -> http://127.0.0.1/TP1/index.php?debug)
 function debug(){
     if(isset($_GET['debug'])){
         ini_set('display_errors', 1);
@@ -19,27 +23,25 @@ function debug(){
     }
 }
 
+#Se llama a la funcion debug para activarlo.
 debug();
 
-require __DIR__ . '/vendor/autoload.php';
-foreach(glob("interfaces/*.php") as $interface){
-    require_once $interface;
-}
-
-foreach (glob("classes/*.php") as $class){
-    require_once $class;
-}
-
-
+//Llama al metodo de buscar paises por nombre parcial.
 $empleador = new Empleador('Marcos','Gomez',50,'germa');
 
-$contratista1 = new Contratista('Juan','Fernandez',24,'fin','rus');
+//Llama al metodo de buscar paises por region.
+$empleador->comprarOficinas('Europe');
+
+//Llama al metodo de buscar paises por region. (pais residencia y pais destino).
+$contratista1 = new Contratista('Juan','Fernandez',24,'fin','portu');
 $contratista2 = new Contratista('Maria','Alvarez',32,'argen','spai');
 
-$empleador.agregarContratista($contratista1);
-$empleador.agregarContratista($contratista2);
+$empleador->emplearContratista($contratista1);
+$empleador->emplearContratista($contratista2);
 
-$empleador.presentarse();
+$empleador->presentarse();
+echo "<br>";
+$empleador->listadoOficinas();
 
 
 ?>
