@@ -1,0 +1,1 @@
+O:13:"entity\Entity":6:{s:6:"nombre";s:6:"Braian";s:8:"apellido";s:7:"Baldino";s:8:"telefono";s:7:"0303456";s:5:"email";s:15:"braian@test.com";s:8:"password";s:5:"hello";s:4:"role";s:5:"admin";}
