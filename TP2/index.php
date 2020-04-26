@@ -7,11 +7,11 @@ use entityController\EntityController;
 use entity\Entity;
 
 session_start();
-#nombre=juan
+
 $queryParam = $_SERVER['QUERY_STRING'];
-#GET
+
 $method = $_SERVER['REQUEST_METHOD'];
-#/getall
+
 $path = $_SERVER['PATH_INFO'] ?? '';
 
 switch ($method) {
@@ -38,7 +38,7 @@ switch ($method) {
                     $response = EntityController::login($_POST['email'],$_POST['clave']);
                     echo json_encode($response);
 
-                    if($response->status == 'success'){
+                    if($response->status === 'success'){
                         
                         $_SESSION['email'] = $_POST['email'];
                         $_SESSION['tipo'] = EntityController::userRole($_POST['email']);

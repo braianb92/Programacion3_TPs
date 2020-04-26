@@ -87,14 +87,13 @@ class EntityController{
                     return $response;
                 }
             }
-
-            return $response->status = 'Login Failed, User Not Found';
-        }
-        else{
-            return $response->status = 'fail';
+            
+             $response->status = 'Login Failed, User Not Found';
+             return $response;
         }
     }
 
+    //Devuelve el tipo de usuario segun su email.
     public static function userRole($userEmail){
         $users = Data::readAll();
 
