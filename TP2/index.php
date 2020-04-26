@@ -42,6 +42,7 @@ switch ($method) {
                         
                         $_SESSION['email'] = $_POST['email'];
                         $_SESSION['tipo'] = EntityController::userRole($_POST['email']);
+                        $_SESSION['token'] = $response->data;
                     }
                 }
                 else{
@@ -59,29 +60,34 @@ switch ($method) {
         switch (strtolower($path)) {
             case '/detalle':
 
-            $session = $_SESSION['email'] ?? false;
+                $headers = getallheaders();
+                $token = $headers['token'] ?? 'none';
+                $sessionToken = $_SESSION['token'] ?? '';
 
-            if($session == false){
-                echo "Debe iniciar sesion primero!";
-            }
-            else{
-                $response = EntityController::GetDetalle($session);
-                echo json_encode($response);
-            }
-                break;
+                if($token==$sessionToken){
+                    $response = EntityController::GetDetalle($_SESSION['email']);
+                    echo json_encode($response);              
+                }
+                else{
+                    echo "Debe iniciar sesion primero! No hay token o no es valido";
+                }
+                    break;
 
             case '/lista':
-                $session = $_SESSION['email'] ?? false;
 
-            if($session == false){
-                echo "Debe iniciar sesion primero!";
-            }
-            else{
+                $headers = getallheaders();
+                $token = $headers['token'] ?? 'none';
+                $sessionToken = $_SESSION['token'] ?? '';
 
-                $response = EntityController::GetLista($_SESSION['tipo']);
-                echo json_encode($response);
-            }
-                break;
+                if($token==$sessionToken){
+                    $response = EntityController::GetLista($_SESSION['tipo']);
+                    echo json_encode($response);
+                }
+                else{
+                    echo "Debe iniciar sesion primero! No hay token o no es valido";
+                    
+                }
+                    break;
 
             case '/logout':
 
