@@ -28,4 +28,5 @@ class Auth{
         $key = "clave_super_secreta_Baldino";
         return JWT::decode($jwt, $key, array('HS256'));
     }
+
 }

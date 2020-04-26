@@ -49,7 +49,7 @@ switch ($method) {
         break;
 
     case 'GET':
-        echo "anda";
+        
         break;
     
     default:

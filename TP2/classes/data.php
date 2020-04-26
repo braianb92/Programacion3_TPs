@@ -4,36 +4,47 @@ namespace data;
 
 class Data{
 
-    //Guarda en un txt un objeto serializado.
-    public static function saveSerialized($user){
+    //Guarda en un JSON un array de usuarios.
+    public static function save($user){
 
-    if(isset($user)){
+        if(isset($user)){
 
-        $file =  fopen('files/users.txt','a+');
-        
-        $response = fwrite($file,serialize($user));
-        
-        fclose($file);
-        
-        return $response;
-    }
+            $data = Data::readAll();
+
+            array_push($data,$user);
+            
+            $filePath = 'files/users.json';
+
+            $file = fopen($filePath, 'w');
+
+            $rta = fwrite($file, json_encode($data));
+
+            fclose($file);
+
+            return $rta;
+        }
 
     return false;
 }
 
-    //Lee el archivo txt y deserealiza.
-    //Devuelve un array de usuarios.
+    //Lee el archivo JSON y devuelve un array de usuarios.
     public static function readAll(){
-    
-    $file =  fopen('files/users.txt','r+');
-    
-    $data = fread($file,filesize('files/users.txt'));
-    
-    fclose($file);
-    
-    $users = unserialize($data);
+    $filePath = 'files/users.json'; 
 
-    return $users;
+    $file = fopen($filePath, 'r');
+
+    $data = fread($file, filesize($filePath));
+   
+    fclose($file);
+
+    if(strlen($data)>1){
+
+        $arrayJSON = json_decode($data);
+
+        return $arrayJSON;
+    }
+    
+    return $emptyArray = array();
 }
 
 }

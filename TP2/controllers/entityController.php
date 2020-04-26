@@ -63,7 +63,7 @@ class EntityController{
         $response = new Response();
 
         if(isset($user)){
-            Data::saveSerialized($user);
+            Data::save($user);
             return $response;
         }
         else{
@@ -72,7 +72,7 @@ class EntityController{
         }       
     }
 
-    //Retorna un JWT si el usuario o admin existe. Retorna 'false' si no existe.
+    //Retorna un JWT si el usuario o admin existe.
     public static function login($email,$password){
         $response = new Response();
 
@@ -80,13 +80,16 @@ class EntityController{
             $users = Data::readAll();
 
             foreach ($users as $user) {
+
                 if($user->email == $email && $user->password == $password){
+
                     $response->data = Auth::encode($user);
+
                     return $response;
                 }
             }
 
-            return $response->status = 'Not Found';
+            return $response->status = 'Login Failed, User Not Found';
         }
         else{
             return $response = 'fail';
