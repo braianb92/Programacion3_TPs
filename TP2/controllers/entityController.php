@@ -13,7 +13,7 @@ use auth\Auth;
 class EntityController{
 
     //Retorna la lista de usuarios o admins segun el rol pasado por parametro.
-    public static function GetLista($role){
+    public static function GetLista($tipo){
         $response = new Response();
         $users = Data::readAll();
 
@@ -21,7 +21,7 @@ class EntityController{
             
             foreach ($users as $user) {
 
-                if($user->role == $role){
+                if($user->tipo == $tipo){
                     array_push($response->data,$user);
                 }
             }
@@ -73,18 +73,17 @@ class EntityController{
     }
 
     //Retorna un JWT si el usuario o admin existe.
-    public static function login($email,$password){
+    public static function login($email,$clave){
         $response = new Response();
 
-        if(isset($email)&&isset($password)){
+        if(isset($email)&&isset($clave)){
             $users = Data::readAll();
 
             foreach ($users as $user) {
 
-                if($user->email == $email && $user->password == $password){
+                if($user->email == $email && $user->clave == $clave){
 
                     $response->data = Auth::encode($user);
-
                     return $response;
                 }
             }
@@ -92,7 +91,16 @@ class EntityController{
             return $response->status = 'Login Failed, User Not Found';
         }
         else{
-            return $response = 'fail';
+            return $response->status = 'fail';
+        }
+    }
+
+    public static function userRole($userEmail){
+        $users = Data::readAll();
+
+        foreach($users as $user){
+            if($user->email == $userEmail)
+            return $user->tipo;
         }
     }
 }

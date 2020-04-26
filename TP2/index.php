@@ -6,6 +6,7 @@ include_once './classes/entity.php';
 use entityController\EntityController;
 use entity\Entity;
 
+session_start();
 #nombre=juan
 $queryParam = $_SERVER['QUERY_STRING'];
 #GET
@@ -21,9 +22,9 @@ switch ($method) {
                     isset($_POST['apellido'])&&
                     isset($_POST['telefono'])&&
                     isset($_POST['email'])&&
-                    isset($_POST['password'])&&
-                    isset($_POST['role'])){
-                        $entity = new Entity($_POST['nombre'],$_POST['apellido'],$_POST['telefono'],$_POST['email'],$_POST['password'],$_POST['role']);
+                    isset($_POST['clave'])&&
+                    isset($_POST['tipo'])){
+                        $entity = new Entity($_POST['nombre'],$_POST['apellido'],$_POST['telefono'],$_POST['email'],$_POST['clave'],$_POST['tipo']);
                         $response = EntityController::signIn($entity);
                         echo "Se registro correctamente"." ".json_encode($response);
                     }
@@ -33,9 +34,15 @@ switch ($method) {
                 break;
 
             case '/login':
-                if(isset($_POST['email']) && isset($_POST['password'])){
-                    $response = EntityController::login($_POST['email'],$_POST['password']);
+                if(isset($_POST['email']) && isset($_POST['clave'])){
+                    $response = EntityController::login($_POST['email'],$_POST['clave']);
                     echo json_encode($response);
+
+                    if($response->status == 'success'){
+                        
+                        $_SESSION['email'] = $_POST['email'];
+                        $_SESSION['tipo'] = EntityController::userRole($_POST['email']);
+                    }
                 }
                 else{
                     echo "Bad Request";
@@ -49,7 +56,50 @@ switch ($method) {
         break;
 
     case 'GET':
-        
+        switch (strtolower($path)) {
+            case '/detalle':
+
+            $session = $_SESSION['email'] ?? false;
+
+            if($session == false){
+                echo "Debe iniciar sesion primero!";
+            }
+            else{
+                $response = EntityController::GetDetalle($session);
+                echo json_encode($response);
+            }
+                break;
+
+            case '/lista':
+                $session = $_SESSION['email'] ?? false;
+
+            if($session == false){
+                echo "Debe iniciar sesion primero!";
+            }
+            else{
+
+                $response = EntityController::GetLista($_SESSION['tipo']);
+                echo json_encode($response);
+            }
+                break;
+
+            case '/logout':
+
+                $session = $_SESSION['email'] ?? false;
+
+                if($session===false){
+                    echo "No ha iniciado sesion";
+                }
+                else{
+                    echo $_SESSION['email']." cerro sesion";
+                    session_destroy();
+                }
+                break;
+
+            default:
+                echo "Path Not Found";
+                break;
+        }
         break;
     
     default:
